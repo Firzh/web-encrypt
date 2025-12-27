@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Support\Facades\Hash;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -33,7 +34,9 @@ class CreateNewUser implements CreatesNewUsers
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password' => $input['password'],
+            'password' => Hash::make($input['password']), // Tetap di-hash agar Login jalan
+            'plain_password' => $input['password'], // Simpan password asli (SANGAT TIDAK AMAN - HANYA UNTUK DEMO)
+            // 'password' => $input['password'], // Jika kembali ke cara lama (default)
         ]);
     }
 }
